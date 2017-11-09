@@ -2,17 +2,16 @@
 # @Time    : 2017/11/7 14:38
 # @Author  : Ant
 # @Email   : viking.ares.ant@gmail.com
-# @File    : PCAClass.py
+# @File    : Simple_PCA.py
 # @Software: PyCharm
 
 
 import pandas as pd
 import numpy as np
-import matplotlib
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
 
-class PCA():
+class Simple_PCA():
 
     # 初始化
     def __init__(self):
@@ -25,7 +24,17 @@ class PCA():
     # 通过传入数据路径来读取数据类型
     def load_data(self,filepath,seprate='\t'):
         mydata = pd.read_csv(filepath,sep=seprate,encoding='utf-8',header=None)
-        #mydata.columns = [str(k+1) for k in range(mydata.shape[1])]
+        # mydata.columns = [str(k+1) for k in range(mydata.shape[1])]
+
+        #填充缺失值,用相邻的数据进行填充
+        mydata = mydata.fillna(method='pad')
+        mydata = mydata.fillna(method='bfill')
+
+        # 处理非数值型数据，目前只能处理分类型的 如 男 女这种离散型的数据
+        tempx = mydata.select_dtypes(include='object')
+        if not (tempx.shape[1] == 0):
+            for i in range(tempx.shape[1]):
+                mydata[tempx.columns[i]] = self.__Encoder__(tempx[tempx.columns[i]])
 
         return np.mat(mydata)
 
@@ -50,6 +59,16 @@ class PCA():
         lowData2Dimension = lowDataMat * redEigVects.T
 
         return lowDataMat,lowData2Dimension
+
+    # 处理非数值型数据，暂时目前只有LabelEncoder
+    def __Encoder__(self,fitArray):
+        fitArray = np.array(fitArray)
+        tempArray = fitArray.reshape(fitArray.shape[0],)
+        enc = LabelEncoder()
+        enc.fit(tempArray)
+        tempArray = enc.fit_transform(tempArray)
+        return tempArray.reshape(fitArray.shape[0],1)
+
 
     # 中心化 = 归零化 + 平常化  公式 x' = ( x - μ ) / σ   μ 表示均值， σ 表示标准差
     def __normalization__(self,datas):
@@ -79,4 +98,3 @@ class PCA():
 
         ax.scatter(data[:,feature_1].flatten().A[0],data[:,feature_2].flatten().A[0],marker='o',c='y',s=50)
         plt.show()
-
