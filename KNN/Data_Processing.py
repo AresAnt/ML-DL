@@ -36,7 +36,7 @@ class Data_Process():
         XLabel = np.array(mydata)[:, 0:-1]
         YLabel = np.array(mydata)[:,-1]
 
-        return self.__normalization__(np.mat(XLabel)),YLabel.reshape(YLabel.shape[0],1)
+        return self.__uniformization__(XLabel),YLabel.reshape(YLabel.shape[0],1)
 
     # 处理非数值型数据，暂时目前只有LabelEncoder
     def __Encoder__(self,fitArray):
@@ -47,6 +47,14 @@ class Data_Process():
         tempArray = enc.fit_transform(tempArray)
         return tempArray.reshape(fitArray.shape[0],1)
 
+    # 归一化 ，通过除以(max - min)
+    def __uniformization__(self,datas):
+        feature_Size = datas.shape[1]
+        for i in range(feature_Size):
+            feature_max = datas[:,i].max()
+            feature_min = datas[:,i].min()
+            datas[:,i] = datas[:,i] / (feature_max - feature_min)
+        return datas
 
     # 中心化 = 归零化 + 平常化  公式 x' = ( x - μ ) / σ   μ 表示均值， σ 表示标准差
     def __normalization__(self,datas):
