@@ -1,4 +1,1 @@
-﻿PCA
-===
-
-https://www.zybuluo.com/aresant/note/945673
+PCA===详细算法说明：戳下https://www.zybuluo.com/aresant/note/945673稍稍说一下各个文件的作用：------------------ - Data_Processing.py  : 是对读取的数据进行处理的文件，进行归一化以及平常化等操作。 - PCA_Test.py   ： 相当于是C++中的main函数，用来调用各个类中的函数方法。【运行该文件  - Kernel_PCA.py   ：是核主成分析算法的做法，通过核函数将原数据（一般处理原数据中带有非线性数据的）投射到更高维的空间中，成为线性关系后，再用PCA的方式进行降维  - Simple_PCA.py   ：最简单的PCA降维，通过传入降维的参数（即想要降到几维），来进行降维 - Use_ScikitLearn.py  :  通过现有的 Scikit-Learn 中的包装好的函数来进行操作，上网扒的他们的Example说明，可以看其图像来进行学习 
