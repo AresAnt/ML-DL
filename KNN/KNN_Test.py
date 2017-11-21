@@ -19,13 +19,13 @@ if __name__ == "__main__":
     xdata,ydata = DP.load_data(filepath)
 
     # 划分训练集与测试集
-    x_train,x_test,y_train,y_test = train_test_split(xdata,ydata,test_size=0.1,random_state=0)
+    x_train,x_test,y_train,y_test = train_test_split(xdata,ydata,test_size=0.1,random_state=7)
 
     # 进行测试集测试
     rate = 0.0
     for i in range(x_test.shape[0]):
         predict_y = KNN.StepbyStepKNN(x_train,y_train,x_test[i],5)
-        real_y = int(y_test[0][0])
+        real_y = int(y_test[i][0])
         if predict_y == real_y:
             rate = rate + 1
         print("The classifier is: ",str(predict_y),", the real answer is: ",str(real_y))

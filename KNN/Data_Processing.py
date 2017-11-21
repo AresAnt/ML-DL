@@ -10,11 +10,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import LabelEncoder
-
 class Data_Process():
 
     # 通过传入数据路径来读取数据类型, 有监督数据
@@ -51,8 +46,8 @@ class Data_Process():
     def __uniformization__(self,datas):
         feature_Size = datas.shape[1]
         for i in range(feature_Size):
-            feature_max = datas[:,i].max()
-            feature_min = datas[:,i].min()
+            feature_max = datas[:,i].max(0)
+            feature_min = datas[:,i].min(0)
             datas[:,i] = datas[:,i] / (feature_max - feature_min)
         return datas
 
