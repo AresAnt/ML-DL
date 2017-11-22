@@ -65,7 +65,7 @@ class TreeNode():
                 min = temp
                 index = i
 
-        print(index)
+        # print(index)
         cf_next_treenode = tree_node.treenodes[index]
 
         # 判断有没有子节点，若有进行递归,有节点进行递归
@@ -80,12 +80,12 @@ class TreeNode():
 
             # 不大于叶子平衡因子，且阈值符合满足
             if len_treenode < tree_node.leaf_balance and DivisionJudge:
-                print("Insert")
+                # print("Insert")
                 tree_node.__TreeNodeInsertCFNode__(findcf)
 
             # 否则就需要分裂
             else:
-                print("Split")
+                # print("Split")
                 tree_node.__SplitTwoParts__(tree_node,findcf)
 
 
@@ -275,7 +275,7 @@ class TreeNode():
 class Birch_Class():
 
     # 获取的初始化参数的值，枝平衡银子β，叶平衡因子λ，空间阈值T，以及是否
-    def __init__(self,branch_balance=2,leaf_balance=3,threshold=3,compute_labels=True):
+    def __init__(self,branch_balance=3,leaf_balance=3,threshold=3,compute_labels=True):
         self.branch_balance = branch_balance
         self.leaf_balance = leaf_balance
         self.threshod = threshold
@@ -299,8 +299,6 @@ class Birch_Class():
             cf_node = CFNode(sample)
             self.root.TreeNode_insert_CFNode(cf_node)
 
-        print(self.root)
-
         self.printss(self.root)
 
     def printss(self,root):
@@ -308,15 +306,19 @@ class Birch_Class():
         for i in range(lenh):
             cfnode = root.treenodes[i]
             if cfnode.child:
-                print("has child")
+                print("Clustering")
                 self.printss(cfnode.child)
             else:
                 print(cfnode.LS)
 
 
 
-s = np.array([[1,2,3],[1,-2,4],[6,-7,2],[2,-3,7],[1,2,3]])
-Bp = Birch_Class()
-Bp.CreateCFTree(s)
+if __name__ == "__main__":
+
+    # 随便写的一个小的测试例子，最后结果是分为了3类，可以去验证
+    s = np.array([[1,2,3],[1,-2,4],[6,-7,2],[2,-3,7],[1,2,3]])
+    #s = np.array([[0, 1], [0.3, -1],[0.3, 1], [-0.3, 1], [0, -1], [-0.3, -1]])
+    Bp = Birch_Class()
+    Bp.CreateCFTree(s)
 
 
