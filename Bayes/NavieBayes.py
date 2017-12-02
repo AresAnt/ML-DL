@@ -63,9 +63,7 @@ class NavieBayes():
         for k,v in self.y.items():
 
             cl = float(k.replace("cl",''))
-            Num_feature_cl = len(set(self.x[:, 8].flatten()))
-            p_feature_cl = self.__Laplacian__(Num_feature_cl,v[1],Num_feature_cl)
-            p_log = np.log(p_feature_cl)
+            p_log = 0.0
             for i in range(n_features):
                 feature = test_x[i]
 
@@ -80,7 +78,7 @@ class NavieBayes():
                     p_log = p_log + np.log(p_feature_cl)
                     # print(p_log)
 
-            test_y[k] = p_log
+            test_y[k] = p_log * v[1]
 
         sort_Y = sorted(test_y.items(),key=lambda v:v[1],reverse=True)
 
@@ -113,6 +111,6 @@ if __name__ == "__main__":
     nb.TrainningNavieBayes(rowdata_x,rowdata_y)
 
     clustering = { "cl0":"坏瓜","cl1":"好瓜"}
-    # cl = nb.TestingNavieBayes(rowdata_x[0])
-    cl = nb.TestingNavieBayes(np.array([1,2,3,3,1,2,0.888,0.362]))
+    cl = nb.TestingNavieBayes(rowdata_x[0])
+    # cl = nb.TestingNavieBayes(np.array([1,2,3,3,1,2,0.888,0.362]))
     print(clustering[cl])
